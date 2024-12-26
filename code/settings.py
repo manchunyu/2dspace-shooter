@@ -68,3 +68,16 @@ class Star(Sprite):
         self.texture = load_texture_from_image(self.img)
 
 
+class Laser(Sprite):
+    def __init__(self, pos):    
+        super().__init__(
+            load_image(join("..", "images", "laser.png")),
+            pos
+        )
+        self.rect = Rectangle(self.pos.x, self.pos.y, self.img.width, self.img.height)
+        self.texture = load_texture_from_image(self.img)
+        self.speed = LASER_SPEED
+        self.direction = Vector2(0, -1)
+
+    def update(self, dt):
+        self.pos.y += self.direction.y * dt * self.speed
