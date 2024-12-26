@@ -39,7 +39,7 @@ while not window_should_close():
         draw_texture_v(meteor.texture, meteor.pos, WHITE)
     draw_texture_v(player.texture, player.pos, WHITE)
     draw_texture_v(laser.texture, laser.pos, WHITE)
-    draw_text(str(int(get_time())), int(WINDOW_WIDTH / 2), 100, 100, WHITE)
+    draw_text(str(int(get_time())), WINDOW_WIDTH // 2 - FONT_SIZE//2, 100, FONT_SIZE, WHITE)
 
     end_drawing()
 
