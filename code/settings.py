@@ -35,6 +35,8 @@ class Player(Sprite):
 
         self.pos.x += self.direction.x * dt * self.speed
         self.pos.y += self.direction.y * dt * self.speed
+        self.rect.x = self.pos.x
+        self.rect.y = self.pos.y
 
 
 class Meteor(Sprite):
@@ -47,10 +49,14 @@ class Meteor(Sprite):
         self.speed = randint(*METEOR_SPEED_RANGE)
         self.rect = Rectangle(self.pos.x, self.pos.y, self.img.width, self.img.height)
         self.texture = load_texture_from_image(self.img)
+        self.anmation_frames = [load_texture(join("..", "images", "explosion", f"{i}.png")) for i in range(1, 29)]
     
     def update(self, dt):
         self.pos.x += self.direction.x * self.speed * dt
         self.pos.y += self.direction.y * self.speed * dt
+        self.rect.x = self.pos.x
+        self.rect.y = self.pos.y
+    
     
 
 class Star(Sprite):
@@ -60,4 +66,5 @@ class Star(Sprite):
             Vector2(randint(0, WINDOW_WIDTH), randint(0, WINDOW_HEIGHT)),
         )
         self.texture = load_texture_from_image(self.img)
+
 
