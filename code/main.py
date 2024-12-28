@@ -51,7 +51,9 @@ while not window_should_close():
     # Draw moving sprites
     for meteor in meteors:
         draw_texture_v(meteor.texture, meteor.pos, WHITE)
+
     draw_texture_v(player.texture, player.pos, WHITE)
+    
     if fire:
         draw_texture_v(laser.texture, laser.pos, WHITE)
     draw_text(str(int(get_time())), (WINDOW_WIDTH - FONT_SIZE) // 2, 100, FONT_SIZE, WHITE)
