@@ -6,9 +6,10 @@ init_window(WINDOW_WIDTH, WINDOW_HEIGHT, "Space Shooter")
 
 player = Player()
 meteor = Meteor()
-laser = Laser(player.pos)
+laser = Laser()
 meteors = []
 stars = [Star() for _ in range(20)]
+fire = False
 
 def create_meteor():
     meteors.append(Meteor())
@@ -17,13 +18,26 @@ meteor_timer = Timer(METEOR_TIMER_DURATION, True, True, create_meteor)
 
 while not window_should_close():
     # Updates
+    
     dt = get_frame_time()
     player.update(dt)
     meteor_timer.update()
     for meteor in meteors:
         meteor.update(dt)
-        if check_collision_recs(meteor.rect, player.rect):
+        if check_collision_recs(meteor.rect, laser.rect):
             meteors.remove(meteor)
+            fire = False
+        if check_collision_recs(meteor.rect, player.rect):
+            close_window()
+        
+    if is_key_pressed(KEY_SPACE):
+        fire = True
+        laser.update(player.pos)
+    if fire:
+        laser.fire(dt)
+        if laser.pos.y < 0:
+            fire = False
+
     
 
     begin_drawing()
@@ -38,8 +52,9 @@ while not window_should_close():
     for meteor in meteors:
         draw_texture_v(meteor.texture, meteor.pos, WHITE)
     draw_texture_v(player.texture, player.pos, WHITE)
-    draw_texture_v(laser.texture, laser.pos, WHITE)
-    draw_text(str(int(get_time())), WINDOW_WIDTH // 2 - FONT_SIZE//2, 100, FONT_SIZE, WHITE)
+    if fire:
+        draw_texture_v(laser.texture, laser.pos, WHITE)
+    draw_text(str(int(get_time())), (WINDOW_WIDTH - FONT_SIZE) // 2, 100, FONT_SIZE, WHITE)
 
     end_drawing()
 

@@ -11,18 +11,10 @@ METEOR_SPEED_RANGE = [300,400]
 METEOR_TIMER_DURATION = 0.4
 FONT_SIZE = 120
 
-class Sprite:
-    def __init__(self, img, pos):
-        self.img = img
-        self.pos = pos
-    
-        
-class Player(Sprite):
+class Player():
     def __init__(self):
-        super().__init__(
-            load_image(join("..", "images", "spaceship.png")), 
-            Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2),
-        )
+        self.img = load_image(join("..", "images", "spaceship.png"))
+        self.pos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         self.direction = Vector2(0, 0)
         self.speed = PLAYER_SPEED
         self.rect = Rectangle(self.pos.x, self.pos.y, self.img.width, self.img.height)
@@ -39,18 +31,16 @@ class Player(Sprite):
         self.rect.y = self.pos.y
 
 
-class Meteor(Sprite):
+class Meteor():
     def __init__(self):
-        super().__init__(
-            load_image(join("..", "images", "meteor.png")), 
-            Vector2(randint(0, WINDOW_WIDTH), 0),
-        )
+        self.img = load_image(join("..", "images", "meteor.png"))
+        self.pos = Vector2(randint(0, WINDOW_WIDTH), 0)
         self.direction = Vector2(uniform(-1, 1), 1) #Normalize?
         self.speed = randint(*METEOR_SPEED_RANGE)
         self.rect = Rectangle(self.pos.x, self.pos.y, self.img.width, self.img.height)
         self.texture = load_texture_from_image(self.img)
-        self.anmation_frames = [
-            load_texture(join("..", "images", "explosion", f"{i}.png")) for i in range(1, 29)     
+        self.explosion_frames = [
+            load_texture(join("..", "images", "explosion", f"{i}.png")) for i in range(0, 29)     
         ]
     
     def update(self, dt):
@@ -58,28 +48,33 @@ class Meteor(Sprite):
         self.pos.y += self.direction.y * self.speed * dt
         self.rect.x = self.pos.x
         self.rect.y = self.pos.y
-    
-    
 
-class Star(Sprite):
+
+class Star():
     def __init__(self):
-        super().__init__(
-            load_image(join("..", "images", "star.png")),
-            Vector2(randint(0, WINDOW_WIDTH), randint(0, WINDOW_HEIGHT)),
-        )
+        self.img = load_image(join("..", "images", "star.png"))
+        self.pos = Vector2(randint(0, WINDOW_WIDTH), randint(0, WINDOW_HEIGHT))
         self.texture = load_texture_from_image(self.img)
 
 
-class Laser(Sprite):
-    def __init__(self, pos):    
-        super().__init__(
-            load_image(join("..", "images", "laser.png")),
-            pos
-        )
+class Laser():
+    def __init__(self):
+        self.img = load_image(join("..", "images", "laser.png"))
+        self.pos = Vector2(0, 0)
         self.rect = Rectangle(self.pos.x, self.pos.y, self.img.width, self.img.height)
         self.texture = load_texture_from_image(self.img)
         self.speed = LASER_SPEED
         self.direction = Vector2(0, -1)
 
-    def update(self, dt):
-        self.pos.y += self.direction.y * dt * self.speed
+    def update(self, pos):
+        self.pos.x = pos.x
+        self.pos.y = pos.y
+        self.rect.x = self.pos.x
+        self.rect.y = self.pos.y
+        
+        
+    def fire(self, dt):
+        self.direction = Vector2(0, -1)
+        self.rect.x = self.pos.x
+        self.rect.y = self.pos.y
+        self.pos.y += self.direction.y * dt * self.speed 
