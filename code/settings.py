@@ -39,9 +39,7 @@ class Meteor():
         self.speed = randint(*METEOR_SPEED_RANGE)
         self.rect = Rectangle(self.pos.x, self.pos.y, self.img.width, self.img.height)
         self.texture = load_texture_from_image(self.img)
-        self.explosion_frames = [
-            load_texture(join("..", "images", "explosion", f"{i}.png")) for i in range(0, 29)     
-        ]
+        
     
     def update(self, dt):
         self.pos.x += self.direction.x * self.speed * dt
@@ -78,3 +76,14 @@ class Laser():
         self.rect.x = self.pos.x
         self.rect.y = self.pos.y
         self.pos.y += self.direction.y * dt * self.speed 
+
+class Explosion():
+    def __init__(self):
+        self.explosion_frames = [
+            load_texture(join("..", "images", "explosion", f"{i}.png")) for i in range(0, 29)     
+        ]
+
+    def update(self, pos, i):
+        self.pos.x = pos.x
+        self.pos.y = pos.y
+        self.texture = self.explosion_frames[i]
