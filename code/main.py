@@ -7,6 +7,8 @@ init_audio_device()
 music = load_music_stream(join("..", "audio", "music.wav"))
 laser_sound = load_sound(join("..", "audio", "laser.wav"))
 
+# font = load_font(join("..", "font", "Stormfaze.otf"))
+
 play_music_stream(music)
 
 # set_target_fps(60)
@@ -68,7 +70,7 @@ while not window_should_close():
     draw_text(str(int(get_time())), (WINDOW_WIDTH - FONT_SIZE) // 2, 100, FONT_SIZE, WHITE)
 
     end_drawing()
-
+    # print(len(meteors))
 unload_audio_stream(music)
 close_audio_device()
 close_window()
