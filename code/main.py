@@ -41,6 +41,8 @@ while not window_should_close():
             unload_audio_stream(music)
             close_audio_device()
             close_window()
+        if not (0 <=  meteor.pos.x < WINDOW_WIDTH and 0 <= meteor.pos.y < WINDOW_HEIGHT):
+            meteors.remove(meteor)
 
         
     if is_key_pressed(KEY_SPACE):
@@ -73,7 +75,7 @@ while not window_should_close():
     draw_text(str(int(get_time())), (WINDOW_WIDTH - FONT_SIZE) // 2, 100, FONT_SIZE, WHITE)
 
     end_drawing()
-    # print(len(meteors))
+    print(len(meteors))
 unload_audio_stream(music)
 close_audio_device()
 close_window()
