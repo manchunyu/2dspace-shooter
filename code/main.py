@@ -38,7 +38,10 @@ while not window_should_close():
             meteors.remove(meteor)
             fire = False
         if check_collision_recs(meteor.rect, player.rect):
+            unload_audio_stream(music)
+            close_audio_device()
             close_window()
+
         
     if is_key_pressed(KEY_SPACE):
         play_sound(laser_sound)

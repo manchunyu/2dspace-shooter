@@ -83,7 +83,8 @@ class Explosion():
             load_texture(join("..", "images", "explosion", f"{i}.png")) for i in range(0, 29)     
         ]
 
-    def update(self, pos, i):
+    def update(self, pos):
         self.pos.x = pos.x
         self.pos.y = pos.y
-        self.texture = self.explosion_frames[i]
+        
+    
